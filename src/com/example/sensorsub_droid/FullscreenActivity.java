@@ -1,15 +1,12 @@
 package com.example.sensorsub_droid;
 
-import com.example.sensorsub_droid.util.SystemUiHider;
-
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.example.sensorsub_droid.util.SystemUiHider;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -30,10 +27,11 @@ public class FullscreenActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        
         setContentView(R.layout.activity_fullscreen);
-
+        
+        final Submarine sub = new Submarine(getIntent().getExtras().getString("submarine-address") );
+                
         final View contentView = findViewById(R.id.fullscreen_content);
 
         
@@ -72,12 +70,14 @@ public class FullscreenActivity extends Activity {
         			percentx = relx / midx * 100,
         			percenty = rely / midy * 100;
         		
-        		mPreviousX[0] = motionEvent.getX();
-        		mPreviousY[0] = motionEvent.getY();
+        		//mPreviousX[0] = motionEvent.getX();
+        		//mPreviousY[0] = motionEvent.getY();
         			
-        		//Log.d("sensorsub-droid", minx + "," + maxx + "; " + miny + "," + maxy);
-            	//Log.d("sensorsub-droid", motionEvent.getRawX() + "," + motionEvent.getRawY() );
-            	Log.d("sensorsub-droid", percentx + "," + percenty );
+            	//Log.d("sensorsub-droid", percentx + "," + percenty );
+            	//Log.d("sensorsub-droid", sub.right() + "/" + percentx);
+            	//Log.d("sensorsub-droid", sub.down() + "/" + percenty);
+        		
+        		Log.d("sensorsub-droid", sub.move() + "/" + percentx + "/" + percenty);
             	
                 return false;
             }
