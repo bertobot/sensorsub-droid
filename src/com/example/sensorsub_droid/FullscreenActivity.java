@@ -63,15 +63,21 @@ public class FullscreenActivity extends Activity {
         		// relative from center
         		
         		float
-        			relx = rawx - (( maxx - minx) / 2.0f),
-        			rely = rawy - ((maxy - miny) / 2.0f);
+        			midx = (maxx - minx) / 2.0f,
+        			midy = (maxy - miny) / 2.0f,
+        			
+        			relx = rawx - midx,
+        			rely = rawy - midy,
+        			
+        			percentx = relx / midx * 100,
+        			percenty = rely / midy * 100;
         		
         		mPreviousX[0] = motionEvent.getX();
         		mPreviousY[0] = motionEvent.getY();
         			
-        		Log.d("sensorsub-droid", minx + "," + maxx + "; " + miny + "," + maxy);
-            	Log.d("sensorsub-droid", motionEvent.getRawX() + "," + motionEvent.getRawY() );
-            	Log.d("sensorsub-droid", relx + "," + rely );
+        		//Log.d("sensorsub-droid", minx + "," + maxx + "; " + miny + "," + maxy);
+            	//Log.d("sensorsub-droid", motionEvent.getRawX() + "," + motionEvent.getRawY() );
+            	Log.d("sensorsub-droid", percentx + "," + percenty );
             	
                 return false;
             }
