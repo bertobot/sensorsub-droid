@@ -20,7 +20,7 @@ public class Submarine {
 	public Submarine(String address) throws UnknownHostException, SocketException {
 		
 		if (address.contains(":")) {
-			port = Integer.parseInt(address.substring(address.indexOf(":")));
+			port = Integer.parseInt(address.substring(address.indexOf(":") + 1));
 			ipAddress = InetAddress.getByName(address.substring(0, address.indexOf(":")));
 		}
 		else
