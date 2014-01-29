@@ -1,5 +1,7 @@
 package com.example.sensorsub_droid;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,10 @@ public class FullscreenActivity extends Activity {
 	
 	private float mPreviousY[] = { 0, 0 };
 	
+	static Submarine mSub;
+	
+	final String TAG = "sensorsub-droid";
+	
     /**
      * The instance of the {@link SystemUiHider} for this activity.
      */
@@ -29,9 +35,14 @@ public class FullscreenActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_fullscreen);
-        
-        final Submarine sub = new Submarine(getIntent().getExtras().getString("submarine-address") );
                 
+        try {
+        	mSub = new Submarine(getIntent().getExtras().getString("submarine-address") );
+        }
+        catch (Exception e) {
+        	Log.d(TAG, "couldn't connect to sub: " + e.getMessage() );
+        }
+                        
         final View contentView = findViewById(R.id.fullscreen_content);
 
         
@@ -47,6 +58,17 @@ public class FullscreenActivity extends Activity {
         contentView.setOnTouchListener(new View.OnTouchListener() {
         	@Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+        		
+        		if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+        			Log.d(TAG, "stopped.");
+        			
+        			try {
+        				if (mSub != null) mSub.send("0 0 0");
+        			}
+        			catch (IOException e) {
+        				Log.d(TAG, "error with sending data to sub: " + e.getMessage() );
+        			}
+        		}
         		
     			int
         			minx = view.getMinimumWidth(),
@@ -77,7 +99,14 @@ public class FullscreenActivity extends Activity {
             	//Log.d("sensorsub-droid", sub.right() + "/" + percentx);
             	//Log.d("sensorsub-droid", sub.down() + "/" + percenty);
         		
-        		Log.d("sensorsub-droid", sub.move() + "/" + percentx + "/" + percenty);
+        		String data = percentx + " " + percenty + " 0.0";
+        		Log.d(TAG, data);
+        		
+        		try {
+					if (mSub != null) mSub.send(data);
+				} catch (IOException e) {
+					Log.d(TAG, "error sending data to sub: " + e.getMessage() );
+				}
             	
                 return false;
             }
