@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import android.util.Log;
+
 public class Submarine {
 	
 	private String mAddress;
@@ -15,7 +17,7 @@ public class Submarine {
 	
 	private InetAddress ipAddress;
 	
-	private int port = 5000;
+	private int port = 5500;
 		
 	public Submarine(String address) throws UnknownHostException, SocketException {
 		
@@ -27,6 +29,9 @@ public class Submarine {
 			ipAddress = InetAddress.getByName(address);
 		
 		socket = new DatagramSocket();
+		
+		// TODO:
+		Log.d("sensorsub-droid", "connected to " + ipAddress.toString() + ":" + port);
 	}
 	
 	public void send(String data) throws IOException {

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,6 +36,11 @@ public class FullscreenActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_fullscreen);
+        
+        // TODO: temporary workaround
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy); 
                 
         try {
         	mSub = new Submarine(getIntent().getExtras().getString("submarine-address") );
@@ -100,7 +106,7 @@ public class FullscreenActivity extends Activity {
             	//Log.d("sensorsub-droid", sub.down() + "/" + percenty);
         		
         		String data = percentx + " " + percenty + " 0.0";
-        		Log.d(TAG, data);
+        		//Log.d(TAG, data);
         		
         		try {
 					if (mSub != null) mSub.send(data);
